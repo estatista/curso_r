@@ -36,12 +36,30 @@ glimpse(dados)   # Mostra a transposta da base de dados
 # Quantas pessoas existem no Brasil?
 sum(dados$`POP. TOTAL`)
 
+# Qual a média de pessoas por municipio?
+mean(dados$`POP. TOTAL`)
+
+# Quantas pessoas tem no menor município?
+min(dados$`POP. TOTAL`)
+
+# E quantas pessoas tem no maior município?
+max(dados$`POP. TOTAL`)
+
+# Qual o desvio padrão da população por município?
+sd(dados$`POP. TOTAL`)
+
+
+
+
 # Outra forma de somar:
-dados %>% summarize(soma = sum(`POP. TOTAL`))
+dados %>% 
+  summarize(soma = sum(`POP. TOTAL`))
 
 
 # Quantas pessoas tem no DF?
-dados %>% filter(UF == "DF") %>% summarize(soma = sum(`POP. TOTAL`))
+dados %>% 
+  filter(UF == "DF") %>% 
+  summarize(soma = sum(`POP. TOTAL`))
 
 # Quantas pessoas por UF?
 dados %>% group_by(UF) %>% summarize(soma = sum(`POP. TOTAL`))
@@ -54,34 +72,11 @@ kable(tab) # Função que faz tabelas mais bonitas do pacot 'knitr'.
 View(tab)
 
 
-# Exercício: 
+# Exercícios: 
 # 1 Quantas pessoas foram efetivamente contadas no Censo? 
 # 2 E quantas foram imputadas?
-# 3 Em qual(is) UF(s) houve(ram) menos imputação?
+# 3 Em qual UF houve menos imputação?
 # 4 E em qual houve mais imputação?
 # 5 E em termos relativos?
 # 6 Em quais municípios não foi necessário fazer imputação?
-
-
-# 1:
-sum(dados$POP.COLETATADA)
-
-# 2:
-sum(dados$POP.IMPUTADA)
-
-# 3:
-tab2 <- dados %>% group_by(UF) %>% summarise( imputacao = sum(POP.IMPUTADA))
-kable(tab2)
-tab2 %>% arrange(imputacao)
-
-# 4:
-tab2 %>% arrange(desc(imputacao))
-
-# 5:
-tab3 <- dados %>% 
-  group_by(UF) %>% 
-  summarise(POP.TOTAL = sum(POP.TOTAL), POP.IMPUTADA = sum(POP.IMPUTADA)) %>%
-  mutate(PERC.IMPUT = POP.IMPUTADA / POP.TOTAL * 100) %>%
-  arrange(PERC.IMPUT)
-kable(tab3)
-
+# 7 Quantos municípios por UF ficaram sem imputação?
